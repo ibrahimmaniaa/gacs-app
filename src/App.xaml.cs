@@ -1,0 +1,17 @@
+﻿using System.Windows;
+
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+
+
+namespace gacs_app;
+
+/// <summary>
+/// Interaction logic for App.xaml
+/// </summary>
+/// <summary>
+/// Interaction logic for App.xaml
+/// </summary>
+public partial class App : Application
+{
+}
