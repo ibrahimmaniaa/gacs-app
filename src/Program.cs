@@ -9,7 +9,7 @@ public class Program
   [STAThread]
   public static void Main(string[] args)
   {
-    var host = Host.CreateDefaultBuilder(args)
+    IHost host = Host.CreateDefaultBuilder(args)
                    .ConfigureServices((context, services) =>
                                       {
                                         services.AddSingleton<MainViewModel>();
@@ -18,8 +18,8 @@ public class Program
                                       })
                    .Build();
 
-    var app = new App();
-    var mainWindow = host.Services.GetRequiredService<MainWindow>();
+    App app = new App();
+    MainWindow mainWindow = host.Services.GetRequiredService<MainWindow>();
     app.Run(mainWindow);
   }
 }

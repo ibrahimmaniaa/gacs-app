@@ -1,0 +1,73 @@
+name: CD Pipeline
+
+on:
+  repository_dispatch:
+    types: [trigger-cd]
+
+permissions:
+  contents: write
+  pull-requests: read
+
+env:
+  PROJECT_PATH: 'src/gacs-app.csproj'
+  BUILD_CONFIGURATION: 'Release'
+  DOTNET_VERSION: '8.0.x'
+
+jobs:
+  release:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+        ref: ${{ github.event.client_payload.sha }}
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+
+    - name: Build and Publish Application
+      run: |
+        dotnet publish ${{ env.PROJECT_PATH }} `
+          --configuration ${{ env.BUILD_CONFIGURATION }} `
+          --runtime win-x64 `
+          --self-contained true `
+          --output ./publish `
+          -p:PublishSingleFile=true `
+          -p:PublishReadyToRun=true `
+          -p:IncludeNativeLibrariesForSelfExtract=true
+
+    - name: Create Release Archive
+      shell: pwsh
+      run: |
+        $version = "${{ github.event.client_payload.version }}"
+        Compress-Archive -Path "./publish/*" -DestinationPath "gacs-app-v$version-win-x64.zip"
+
+    - name: Create GitHub Release
+      uses: ncipollo/release-action@v1
+      with:
+        tag: v${{ github.event.client_payload.version }}
+        name: GACS Desktop App v${{ github.event.client_payload.version }}
+        body: |
+          ## GACS Desktop Application v${{ github.event.client_payload.version }}
+
+          ### What's New
+          - Update the release notes here with your changes
+
+          ### Download
+          - Download the `gacs-app-v${{ github.event.client_payload.version }}-win-x64.zip` file
+          - Extract it to any folder
+          - Run `gacs-app.exe` directly (no installation required)
+
+          ### System Requirements
+          - Windows 10/11 (x64)
+          - No additional software installation required
+
+          **Full Changelog**: https://github.com/${{ github.repository }}/compare/${{ github.event.before }}...${{ github.sha }}
+        artifacts: "gacs-app-v${{ github.event.client_payload.version }}-win-x64.zip"
+        draft: false
+        prerelease: false
+        token: ${{ secrets.GITHUB_TOKEN }}

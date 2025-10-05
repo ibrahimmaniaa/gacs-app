@@ -1,0 +1,65 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+env:
+  PROJECT_PATH: 'src/gacs-app.csproj'
+  BUILD_CONFIGURATION: 'Release'
+  DOTNET_VERSION: '8.0.x'
+
+jobs:
+  build-and-check-version:
+    runs-on: windows-latest
+
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+      version-changed: ${{ steps.version.outputs.version-changed }}
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+
+    - name: Restore dependencies
+      run: dotnet restore ${{ env.PROJECT_PATH }}
+
+    - name: Build application
+      run: dotnet build ${{ env.PROJECT_PATH }} --configuration ${{ env.BUILD_CONFIGURATION }} --no-restore
+
+    - name: Extract version from project file
+      id: version
+      shell: pwsh
+      run: |
+        $projectFile = "${{ env.PROJECT_PATH }}"
+        [xml]$proj = Get-Content $projectFile
+        $version = $proj.Project.PropertyGroup.Version
+        Write-Output "Current version: $version"
+        echo "version=$version" >> $env:GITHUB_OUTPUT
+
+        # Check if this version tag already exists
+        $tagExists = git tag -l "v$version"
+        if ([string]::IsNullOrEmpty($tagExists)) {
+          echo "version-changed=true" >> $env:GITHUB_OUTPUT
+          Write-Output "Version $version is new - will trigger CD pipeline"
+        } else {
+          echo "version-changed=false" >> $env:GITHUB_OUTPUT
+          Write-Output "Version $version already exists - CD pipeline will be skipped"
+        }
+
+    - name: Trigger CD Workflow
+      if: github.ref == 'refs/heads/main' && github.event_name == 'push' && steps.version.outputs.version-changed == 'true'
+      uses: peter-evans/repository-dispatch@v2
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        event-type: trigger-cd
+        client-payload: '{"version": "${{ steps.version.outputs.version }}", "sha": "${{ github.sha }}"}'
