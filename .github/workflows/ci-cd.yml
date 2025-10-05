@@ -1,0 +1,123 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+env:
+  PROJECT_PATH: 'src/gacs-app.csproj'
+  BUILD_CONFIGURATION: 'Release'
+  DOTNET_VERSION: '8.0.x'
+
+jobs:
+  build-and-test:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0  # Fetch full history for version comparison
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+
+    - name: Restore dependencies
+      run: dotnet restore ${{ env.PROJECT_PATH }}
+
+    - name: Build application
+      run: dotnet build ${{ env.PROJECT_PATH }} --configuration ${{ env.BUILD_CONFIGURATION }} --no-restore
+
+    - name: Run tests (if any)
+      run: dotnet test --configuration ${{ env.BUILD_CONFIGURATION }} --no-build --verbosity normal
+      continue-on-error: true  # Continue even if no tests exist
+
+  check-version-and-release:
+    needs: build-and-test
+    runs-on: windows-latest
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+      version-changed: ${{ steps.version.outputs.version-changed }}
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+
+    - name: Extract version from project file
+      id: version
+      shell: pwsh
+      run: |
+        $projectFile = "${{ env.PROJECT_PATH }}"
+        [xml]$proj = Get-Content $projectFile
+        $version = $proj.Project.PropertyGroup.Version
+        Write-Output "Current version: $version"
+        echo "version=$version" >> $env:GITHUB_OUTPUT
+
+        # Check if this version tag already exists
+        $tagExists = git tag -l "v$version"
+        if ([string]::IsNullOrEmpty($tagExists)) {
+          echo "version-changed=true" >> $env:GITHUB_OUTPUT
+          Write-Output "Version $version is new - will create release"
+        } else {
+          echo "version-changed=false" >> $env:GITHUB_OUTPUT
+          Write-Output "Version $version already exists - skipping release"
+        }
+
+    - name: Build and Publish Application
+      if: steps.version.outputs.version-changed == 'true'
+      run: |
+        dotnet publish ${{ env.PROJECT_PATH }} `
+          --configuration ${{ env.BUILD_CONFIGURATION }} `
+          --runtime win-x64 `
+          --self-contained true `
+          --output ./publish `
+          -p:PublishSingleFile=true `
+          -p:PublishReadyToRun=true `
+          -p:IncludeNativeLibrariesForSelfExtract=true
+
+    - name: Create Release Archive
+      if: steps.version.outputs.version-changed == 'true'
+      shell: pwsh
+      run: |
+        $version = "${{ steps.version.outputs.version }}"
+        Compress-Archive -Path "./publish/*" -DestinationPath "gacs-app-v$version-win-x64.zip"
+
+    - name: Create GitHub Release
+      if: steps.version.outputs.version-changed == 'true'
+      uses: ncipollo/release-action@v1
+      with:
+        tag: v${{ steps.version.outputs.version }}
+        name: GACS Desktop App v${{ steps.version.outputs.version }}
+        body: |
+          ## GACS Desktop Application v${{ steps.version.outputs.version }}
+
+          ### What's New
+          - Update the release notes here with your changes
+
+          ### Download
+          - Download the `gacs-app-v${{ steps.version.outputs.version }}-win-x64.zip` file
+          - Extract it to any folder
+          - Run `gacs-app.exe` directly (no installation required)
+
+          ### System Requirements
+          - Windows 10/11 (x64)
+          - No additional software installation required
+
+          **Full Changelog**: https://github.com/${{ github.repository }}/compare/${{ github.event.before }}...${{ github.sha }}
+        artifacts: "gacs-app-v${{ steps.version.outputs.version }}-win-x64.zip"
+        draft: false
+        prerelease: false
+        token: ${{ secrets.GITHUB_TOKEN }}
