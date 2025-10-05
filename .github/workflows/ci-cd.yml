@@ -6,6 +6,11 @@ on:
   pull_request:
     branches: [ main ]
 
+# Add permissions for the workflow
+permissions:
+  contents: write  # Required to create releases and push tags
+  pull-requests: read
+
 env:
   PROJECT_PATH: 'src/gacs-app.csproj'
   BUILD_CONFIGURATION: 'Release'
@@ -40,6 +45,11 @@ jobs:
     needs: build-and-test
     runs-on: windows-latest
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+
+    # Add explicit permissions for this job
+    permissions:
+      contents: write
+      pull-requests: read
 
     outputs:
       version: ${{ steps.version.outputs.version }}
