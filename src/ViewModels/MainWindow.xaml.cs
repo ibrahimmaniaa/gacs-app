@@ -8,9 +8,9 @@ namespace GacsApp;
 /// </summary>
 public partial class MainWindow : Window
 {
-  public MainWindow(MainViewModel vm)
+  public MainWindow(MainViewModel mainViewModel)
   {
     InitializeComponent();
-    DataContext = vm;
+    DataContext = mainViewModel;
   }
 }
