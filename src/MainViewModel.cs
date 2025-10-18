@@ -2,9 +2,10 @@
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using GacsApp.Services;
 
 
-namespace gacs_app;
+namespace GacsApp;
 
 public partial class MainViewModel : ObservableObject
 {

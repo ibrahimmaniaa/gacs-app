@@ -1,4 +1,4 @@
-﻿namespace gacs_app;
+﻿namespace GacsApp.Services;
 
 public interface IMyService
 {

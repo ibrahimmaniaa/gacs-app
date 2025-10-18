@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 
 
-namespace gacs_app;
+namespace GacsApp;
 
 /// <summary>
 /// Interaction logic for MainWindow.xaml

@@ -1,8 +1,8 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using GacsApp.Services;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-
-namespace gacs_app;
+namespace GacsApp;
 
 public class Program
 {
@@ -18,7 +18,7 @@ public class Program
                                       })
                    .Build();
 
-    App app = new App();
+    App app = new();
     MainWindow mainWindow = host.Services.GetRequiredService<MainWindow>();
     app.Run(mainWindow);
   }

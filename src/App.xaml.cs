@@ -4,7 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
 
-namespace gacs_app;
+namespace GacsApp;
 
 /// <summary>
 /// Interaction logic for App.xaml
