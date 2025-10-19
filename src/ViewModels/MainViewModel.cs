@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using GacsApp.Models; // Add this using
 using GacsApp.Services;
+using GacsApp.Utils;
 
 namespace GacsApp;
 
@@ -10,17 +11,10 @@ public partial class MainViewModel : ObservableObject
 {
     private readonly IMyService _service;
 
-    [ObservableProperty]
-    private ObservableCollection<ExampleEnum> firstOptions;
+    public IEnumerable<string> StatusCodes => EnumResolver.GetDisplayItems<StatusCode>();
 
     [ObservableProperty]
-    private ObservableCollection<string> secondOptions;
-
-    [ObservableProperty]
-    private ExampleEnum? selectedFirst;
-
-    [ObservableProperty]
-    private string? selectedSecond;
+    private EnumDisplayItem<StatusCode> selectedStatusItem;
 
     [ObservableProperty]
     private string status = string.Empty;
@@ -30,21 +24,13 @@ public partial class MainViewModel : ObservableObject
     public MainViewModel(IMyService service)
     {
         _service = service;
-        FirstOptions = new ObservableCollection<ExampleEnum>
-        {
-            ExampleEnum.FirstOption,
-            ExampleEnum.SecondOption,
-            ExampleEnum.ThirdOption,
-            ExampleEnum.FourthOption
-        };
-        SecondOptions = new ObservableCollection<string> { "A", "B", "C" };
         DoWorkCommand = new AsyncRelayCommand(DoWorkAsync);
     }
 
     private async Task DoWorkAsync()
     {
         Status = "Working...";
-        var result = await _service.DoWorkAsync(SelectedFirst?.ToString(), SelectedSecond);
+        var result = await _service.DoWorkAsync(selectedStatusItem?.ToString(), selectedStatusItem.ToString());
         Status = result;
     }
 }
