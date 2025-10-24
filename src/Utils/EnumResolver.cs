@@ -3,14 +3,17 @@ using System.Reflection;
 
 namespace GacsApp.Utils;
 
-public record EnumDisplayItem<T>(T Value, string DisplayName);
+public record EnumDisplayItem<T>(T Value, string DisplayName)
+{
+    public override string ToString() => DisplayName;
+}
 
 public static class EnumResolver
 {
-    public static IEnumerable<string> GetDisplayItems<T>() where T : Enum =>
+    public static IEnumerable<EnumDisplayItem<T>> GetDisplayItems<T>() where T : Enum =>
         Enum.GetValues(typeof(T))
             .Cast<T>()
-            .Select(GetDisplayName);
+            .Select(value => new EnumDisplayItem<T>(value, GetDisplayName(value)));
 
     private static string GetDisplayName<T>(T value) where T : Enum
     {

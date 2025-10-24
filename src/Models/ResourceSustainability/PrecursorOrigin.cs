@@ -1,6 +1,6 @@
 using System.ComponentModel;
 
-namespace GacsApp.Models;
+namespace GacsApp.Models.ResourceSustainability;
 
 public enum PrecursorOrigin
 {
@@ -20,5 +20,5 @@ public enum PrecursorOrigin
     ChemicalsHighToxicity = 1,
 
     [Description("Not specified or highly hazardous")]
-    NotSpecified = 3
+    NotSpecified = 0
 }

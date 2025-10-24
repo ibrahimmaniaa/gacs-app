@@ -1,6 +1,8 @@
-﻿namespace GacsApp.Services;
+﻿using GacsApp.Models.ResourceSustainability;
+
+namespace GacsApp.Services;
 
 public interface IMyService
 {
-  Task<string> DoWorkAsync(string? opt1, string? opt2);
+  Task<int> DoWorkAsync(PrecursorOrigin opt1, SolventGreenness opt2);
 }

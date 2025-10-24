@@ -1,10 +1,11 @@
-﻿namespace GacsApp.Services;
+﻿using GacsApp.Models.ResourceSustainability;
+
+namespace GacsApp.Services;
 
 public class MyService : IMyService
 {
-  public async Task<string> DoWorkAsync(string? opt1, string? opt2)
+  public Task<int> DoWorkAsync(PrecursorOrigin opt1, SolventGreenness opt2)
   {
-    await Task.Delay(3000); // simulate I/O or network operation
-    return $"Done: {opt1 ?? "n/a"} + {opt2 ?? "n/a"} at {DateTime.Now:T}";
+      return Task.FromResult(Convert.ToInt32(opt1) + Convert.ToInt32(opt2));
   }
 }
