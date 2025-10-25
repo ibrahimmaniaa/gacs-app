@@ -11,9 +11,13 @@ public record EnumDisplayItem<T>(T Value, string DisplayName)
 public static class EnumResolver
 {
     public static IEnumerable<EnumDisplayItem<T>> GetDisplayItems<T>() where T : Enum =>
-        Enum.GetValues(typeof(T))
-            .Cast<T>()
-            .Select(value => new EnumDisplayItem<T>(value, GetDisplayName(value)));
+        typeof(T)
+            .GetFields(BindingFlags.Public | BindingFlags.Static)
+            .Select(f =>
+            {
+                T value = (T)f.GetValue(null)!;
+                return new EnumDisplayItem<T>(value, GetDisplayName(value));
+            });
 
     private static string GetDisplayName<T>(T value) where T : Enum
     {
