@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace GacsApp.Models.Synthesis_Efficiency;
+namespace GacsApp.Models.SynthesisEfficiency;
 
 public enum SynthesisTime
 {

@@ -15,7 +15,7 @@ public class Program
                                       {
                                         services.AddSingleton<MainViewModel>();
                                         services.AddSingleton<MainWindow>();
-                                        services.AddSingleton<IMyService, MyService>();
+                                        services.AddSingleton<IScoringService, ScoringService>();
                                       })
                    .Build();
 

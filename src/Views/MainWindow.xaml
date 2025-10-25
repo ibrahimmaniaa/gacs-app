@@ -21,22 +21,30 @@
             <StackPanel Margin="8">
                 <Label Content="Precursor Origin &amp; Renewability:" />
                 <ComboBox ItemsSource="{Binding PrecursorOriginItems}" 
-                          SelectedItem="{Binding SelectedPrecursorOriginItem}" 
+                          SelectedValue="{Binding Selection.PrecursorOrigin}"
+                          SelectedValuePath="Value"
+                          DisplayMemberPath="DisplayName"
                           Margin="0,0,0,8" />
 
                 <Label Content="Solvent Greenness:" />
                 <ComboBox ItemsSource="{Binding SolventGreennessItems}" 
-                          SelectedItem="{Binding SelectedSolventGreennessItem}" 
+                          SelectedValue="{Binding Selection.SolventGreenness}"
+                          SelectedValuePath="Value"
+                          DisplayMemberPath="DisplayName"
                           Margin="0,0,0,8"/>
 
                 <Label Content="Energy Input:" />
                 <ComboBox ItemsSource="{Binding EnergyInputItems}" 
-                          SelectedItem="{Binding SelectedEnergyInputItem}" 
+                          SelectedValue="{Binding Selection.EnergyInput}"
+                          SelectedValuePath="Value"
+                          DisplayMemberPath="DisplayName"
                           Margin="0,0,0,8"/>
 
                 <Label Content="E-Factor &amp; Waste Generation:" />
                 <ComboBox ItemsSource="{Binding EFactorWasteGenerationItems}" 
-                          SelectedItem="{Binding SelectedEFactorWasteGenerationItem}" 
+                          SelectedValue="{Binding Selection.EFactorWasteGeneration}"
+                          SelectedValuePath="Value"
+                          DisplayMemberPath="DisplayName"
                           Margin="0,0,0,8"/>
             </StackPanel>
         </GroupBox>
@@ -45,22 +53,30 @@
             <StackPanel Margin="8">
                 <Label Content="Synthesis Time:" />
                 <ComboBox ItemsSource="{Binding SynthesisTimeItems}" 
-                          SelectedItem="{Binding SelectedSynthesisTimeItem}" 
+                          SelectedValue="{Binding Selection.SynthesisTime}"
+                          SelectedValuePath="Value"
+                          DisplayMemberPath="DisplayName"
                           Margin="0,0,0,8" />
 
                 <Label Content="Overall Simplicity &amp; Scalability:" />
                 <ComboBox ItemsSource="{Binding SimplicityScalabilityItems}" 
-                          SelectedItem="{Binding SelectedSimplicityScalabilityItem}" 
+                          SelectedValue="{Binding Selection.SimplicityScalability}"
+                          SelectedValuePath="Value"
+                          DisplayMemberPath="DisplayName"
                           Margin="0,0,0,8"/>
 
                 <Label Content="Purification Simplicity:" />
                 <ComboBox ItemsSource="{Binding PurificationSimplicityItems}" 
-                          SelectedItem="{Binding SelectedPurificationSimplicityItem}" 
+                          SelectedValue="{Binding Selection.PurificationSimplicity}"
+                          SelectedValuePath="Value"
+                          DisplayMemberPath="DisplayName"
                           Margin="0,0,0,8"/>
 
                 <Label Content="Reaction Mass Efficiency (RME) or Yield:" />
                 <ComboBox ItemsSource="{Binding ReactionMassEfficiencyItems}" 
-                          SelectedItem="{Binding SelectedReactionMassEfficiencyItem}" 
+                          SelectedValue="{Binding Selection.ReactionMassEfficiency}"
+                          SelectedValuePath="Value"
+                          DisplayMemberPath="DisplayName"
                           Margin="0,0,0,8"/>
             </StackPanel>
         </GroupBox>
@@ -69,17 +85,23 @@
             <StackPanel Margin="8">
                 <Label Content="Quantum Yield (QY):" />
                 <ComboBox ItemsSource="{Binding QuantumYieldItems}" 
-                          SelectedItem="{Binding SelectedQuantumYieldItem}" 
+                          SelectedValue="{Binding Selection.QuantumYield}"
+                          SelectedValuePath="Value"
+                          DisplayMemberPath="DisplayName"
                           Margin="0,0,0,8" />
 
                 <Label Content="Morphology &amp; Uniformity:" />
                 <ComboBox ItemsSource="{Binding MorphologyUniformityItems}" 
-                          SelectedItem="{Binding SelectedMorphologyUniformityItem}" 
+                          SelectedValue="{Binding Selection.MorphologyUniformity}"
+                          SelectedValuePath="Value"
+                          DisplayMemberPath="DisplayName"
                           Margin="0,0,0,8"/>
 
                 <Label Content="Performance &amp; Applicability" />
                 <ComboBox ItemsSource="{Binding PerformanceApplicabilityItems}" 
-                          SelectedItem="{Binding SelectedPerformanceApplicabilityItem}" 
+                          SelectedValue="{Binding Selection.PerformanceApplicability}"
+                          SelectedValuePath="Value"
+                          DisplayMemberPath="DisplayName"
                           Margin="0,0,0,8"/>
             </StackPanel>
         </GroupBox>

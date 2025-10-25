@@ -3,7 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using GacsApp.Models;
 using GacsApp.Models.ProductQuality;
 using GacsApp.Models.ResourceSustainability;
-using GacsApp.Models.Synthesis_Efficiency;
+using GacsApp.Models.SynthesisEfficiency;
 using GacsApp.Services;
 using GacsApp.Utils;
 
@@ -11,7 +11,7 @@ namespace GacsApp.ViewModels;
 
 public partial class MainViewModel : ObservableObject
 {
-    private readonly IMyService _service;
+    private readonly IScoringService _scoringService;
 
     public IEnumerable<EnumDisplayItem<PrecursorOrigin>> PrecursorOriginItems => EnumResolver.GetDisplayItems<PrecursorOrigin>();
     public IEnumerable<EnumDisplayItem<SolventGreenness>> SolventGreennessItems => EnumResolver.GetDisplayItems<SolventGreenness>();
@@ -27,43 +27,25 @@ public partial class MainViewModel : ObservableObject
 
 
     [ObservableProperty]
-    private EnumDisplayItem<PrecursorOrigin>? selectedPrecursorOriginItem;
-    [ObservableProperty]
-    private EnumDisplayItem<SolventGreenness>? selectedSolventGreennessItem;
-    [ObservableProperty]
-    private EnumDisplayItem<EnergyInput>? selectedEnergyInputItem;
-    [ObservableProperty]
-    private EnumDisplayItem<EFactorWasteGeneration>? selectedEFactorWasteGenerationItem;
-    [ObservableProperty]
-    private EnumDisplayItem<SynthesisTime>? selectedSynthesisTimeItem;
-    [ObservableProperty]
-    private EnumDisplayItem<SimplicityScalability>? selectedSimplicityScalabilityItem;
-    [ObservableProperty]
-    private EnumDisplayItem<PurificationSimplicity>? selectedPurificationSimplicityItem;
-    [ObservableProperty]
-    private EnumDisplayItem<ReactionMassEfficiency>? selectedReactionMassEfficiencyItem;
-    [ObservableProperty]
-    private EnumDisplayItem<QuantumYield>? selectedQuantumYieldItem;
-    [ObservableProperty]
-    private EnumDisplayItem<MorphologyUniformity>? selectedMorphologyUniformityItem;
-    [ObservableProperty]
-    private EnumDisplayItem<PerformanceApplicability>? selectedPerformanceApplicabilityItem;
+    private GacsSelection selection = new();
 
     [ObservableProperty]
     private int score;
 
     public IAsyncRelayCommand DoWorkCommand { get; }
 
-    public MainViewModel(IMyService service)
+
+    public MainViewModel(IScoringService scoringService)
     {
-        _service = service;
+        _scoringService = scoringService;
         DoWorkCommand = new AsyncRelayCommand(CalculateScoreAsync);
     }
 
+
     private async Task CalculateScoreAsync()
     {
-        if (SelectedPrecursorOriginItem == null) return;
+        if (Selection.GetAllSelectedEnums().Any(v => v == null)) return;
 
-        Score = await _service.DoWorkAsync(SelectedPrecursorOriginItem.Value, SelectedSolventGreennessItem.Value);
+        Score = await _scoringService.CalculateTotalScoreAsync(Selection);
     }
 }
