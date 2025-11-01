@@ -1,7 +1,7 @@
 ﻿using GacsApp.Models;
-using GacsApp.Models.ResourceSustainability;
 
-namespace GacsApp.Services;
+
+namespace GacsApp.Services.interfaces;
 
 public interface IScoringService
 {

@@ -4,121 +4,154 @@
         Title="GACS - Enhanced Green Assessment of CQDs Synthesis" Height="600" Width="1600"
         ResizeMode="NoResize"
         Icon="/Assets/appicon.ico">
-    <Grid Margin="6">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
+  <Grid Margin="6">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
 
-        <Grid.ColumnDefinitions>
+    <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
             <ColumnDefinition />
-        </Grid.ColumnDefinitions>
+    </Grid.ColumnDefinitions>
 
-        <GroupBox Header="Resource Sustainability &amp; Environmental Impact" Grid.Row="0" Grid.Column="0" Margin="8,0,8,8">
-            <StackPanel Margin="8">
-                <Label Content="Precursor Origin &amp; Renewability:" />
-                <ComboBox ItemsSource="{Binding PrecursorOriginItems}" 
+    <GroupBox Header="Resource Sustainability &amp; Environmental Impact" Grid.Row="0" Grid.Column="0" Margin="8,0,8,8">
+      <StackPanel Margin="8">
+        <StackPanel Orientation="Horizontal">
+          <Image Source="/Assets/precursor-origin.png" Width="16" Height="16" Margin="0,0,0,0" VerticalAlignment="Center" />
+          <Label Content="Precursor Origin &amp; Renewability:" />
+        </StackPanel>
+        <ComboBox ItemsSource="{Binding PrecursorOriginItems}"
                           SelectedValue="{Binding Selection.PrecursorOrigin}"
                           SelectedValuePath="Value"
                           DisplayMemberPath="DisplayName"
                           Margin="0,0,0,8" />
 
-                <Label Content="Solvent Greenness:" />
-                <ComboBox ItemsSource="{Binding SolventGreennessItems}" 
+        <StackPanel Orientation="Horizontal">
+          <Image Source="/Assets/solvent-greeness.png" Width="16" Height="16" Margin="0,0,0,0" VerticalAlignment="Center" />
+          <Label Content="Solvent Greenness:" />
+        </StackPanel>
+        <ComboBox ItemsSource="{Binding SolventGreennessItems}"
                           SelectedValue="{Binding Selection.SolventGreenness}"
                           SelectedValuePath="Value"
                           DisplayMemberPath="DisplayName"
                           Margin="0,0,0,8"/>
 
-                <Label Content="Energy Input:" />
-                <ComboBox ItemsSource="{Binding EnergyInputItems}" 
+        <StackPanel Orientation="Horizontal">
+          <Image Source="/Assets/energy-input.png" Width="16" Height="16" Margin="0,0,0,0" VerticalAlignment="Center" />
+          <Label Content="Energy Input:" />
+        </StackPanel>
+        <ComboBox ItemsSource="{Binding EnergyInputItems}"
                           SelectedValue="{Binding Selection.EnergyInput}"
                           SelectedValuePath="Value"
                           DisplayMemberPath="DisplayName"
                           Margin="0,0,0,8"/>
 
-                <Label Content="E-Factor &amp; Waste Generation:" />
-                <ComboBox ItemsSource="{Binding EFactorWasteGenerationItems}" 
+        <StackPanel Orientation="Horizontal">
+          <Image Source="/Assets/waste-generation.png" Width="16" Height="16" Margin="0,0,0,0" VerticalAlignment="Center" />
+          <Label Content="E-Factor &amp; Waste Generation:" />
+        </StackPanel>
+        <ComboBox ItemsSource="{Binding EFactorWasteGenerationItems}"
                           SelectedValue="{Binding Selection.EFactorWasteGeneration}"
                           SelectedValuePath="Value"
                           DisplayMemberPath="DisplayName"
                           Margin="0,0,0,8"/>
-            </StackPanel>
-        </GroupBox>
+      </StackPanel>
+    </GroupBox>
 
-        <GroupBox Header="Synthesis Efficiency &amp; Practicality" Grid.Row="1" Grid.Column="0" Margin="8,0,8,8">
-            <StackPanel Margin="8">
-                <Label Content="Synthesis Time:" />
-                <ComboBox ItemsSource="{Binding SynthesisTimeItems}" 
+    <GroupBox Header="Synthesis Efficiency &amp; Practicality" Grid.Row="1" Grid.Column="0" Margin="8,0,8,8">
+      <StackPanel Margin="8">
+        <StackPanel Orientation="Horizontal">
+          <Image Source="/Assets/synthesis-time.png" Width="16" Height="16" Margin="0,0,0,0" VerticalAlignment="Center" />
+          <Label Content="Synthesis Time:" />
+        </StackPanel>
+        <ComboBox ItemsSource="{Binding SynthesisTimeItems}"
                           SelectedValue="{Binding Selection.SynthesisTime}"
                           SelectedValuePath="Value"
                           DisplayMemberPath="DisplayName"
                           Margin="0,0,0,8" />
 
-                <Label Content="Overall Simplicity &amp; Scalability:" />
-                <ComboBox ItemsSource="{Binding SimplicityScalabilityItems}" 
+        <StackPanel Orientation="Horizontal">
+          <Image Source="/Assets/synthesis-simplicity.png" Width="16" Height="16" Margin="0,0,0,0" VerticalAlignment="Center" />
+          <Label Content="Overall Simplicity &amp; Scalability:" />
+        </StackPanel>
+        <ComboBox ItemsSource="{Binding SimplicityScalabilityItems}"
                           SelectedValue="{Binding Selection.SimplicityScalability}"
                           SelectedValuePath="Value"
                           DisplayMemberPath="DisplayName"
                           Margin="0,0,0,8"/>
 
-                <Label Content="Purification Simplicity:" />
-                <ComboBox ItemsSource="{Binding PurificationSimplicityItems}" 
+        <StackPanel Orientation="Horizontal">
+          <Image Source="/Assets/purification-simplicity.png" Width="16" Height="16" Margin="0,0,0,0" VerticalAlignment="Center" />
+          <Label Content="Purification Simplicity:" />
+        </StackPanel>
+        <ComboBox ItemsSource="{Binding PurificationSimplicityItems}"
                           SelectedValue="{Binding Selection.PurificationSimplicity}"
                           SelectedValuePath="Value"
                           DisplayMemberPath="DisplayName"
                           Margin="0,0,0,8"/>
 
-                <Label Content="Reaction Mass Efficiency (RME) or Yield:" />
-                <ComboBox ItemsSource="{Binding ReactionMassEfficiencyItems}" 
+        <StackPanel Orientation="Horizontal">
+          <Image Source="/Assets/yield.png" Width="16" Height="16" Margin="0,0,0,0" VerticalAlignment="Center" />
+          <Label Content="Reaction Mass Efficiency (RME) or Yield:" />
+        </StackPanel>
+        <ComboBox ItemsSource="{Binding ReactionMassEfficiencyItems}"
                           SelectedValue="{Binding Selection.ReactionMassEfficiency}"
                           SelectedValuePath="Value"
                           DisplayMemberPath="DisplayName"
                           Margin="0,0,0,8"/>
-            </StackPanel>
-        </GroupBox>
+      </StackPanel>
+    </GroupBox>
 
-        <GroupBox Header="Product Quality &amp; Performance" Grid.Row="0" Grid.Column="1" Margin="8,0,8,8">
-            <StackPanel Margin="8">
-                <Label Content="Quantum Yield (QY):" />
-                <ComboBox ItemsSource="{Binding QuantumYieldItems}" 
-                          SelectedValue="{Binding Selection.QuantumYield}"
-                          SelectedValuePath="Value"
-                          DisplayMemberPath="DisplayName"
-                          Margin="0,0,0,8" />
+    <GroupBox Header="Product Quality &amp; Performance" Grid.Row="0" Grid.Column="1" Margin="8,0,8,50">
+      <StackPanel Margin="8">
+        <StackPanel Orientation="Horizontal">
+          <Image Source="/Assets/quantum-yield.png" Width="16" Height="16" Margin="0,0,0,0" VerticalAlignment="Center" />
+          <Label Content="Quantum Yield (QY):" />
+        </StackPanel>
+        <ComboBox ItemsSource="{Binding QuantumYieldItems}"
+                            SelectedValue="{Binding Selection.QuantumYield}"
+                            SelectedValuePath="Value"
+                            DisplayMemberPath="DisplayName"
+                            Margin="0,0,0,8" />
 
-                <Label Content="Morphology &amp; Uniformity:" />
-                <ComboBox ItemsSource="{Binding MorphologyUniformityItems}" 
-                          SelectedValue="{Binding Selection.MorphologyUniformity}"
-                          SelectedValuePath="Value"
-                          DisplayMemberPath="DisplayName"
-                          Margin="0,0,0,8"/>
+        <StackPanel Orientation="Horizontal">
+          <Image Source="/Assets/morphology-uniformity.png" Width="16" Height="16" Margin="0,0,0,0" VerticalAlignment="Center" />
+          <Label Content="Morphology &amp; Uniformity:" />
+        </StackPanel>
+        <ComboBox ItemsSource="{Binding MorphologyUniformityItems}"
+                            SelectedValue="{Binding Selection.MorphologyUniformity}"
+                            SelectedValuePath="Value"
+                            DisplayMemberPath="DisplayName"
+                            Margin="0,0,0,8"/>
 
-                <Label Content="Performance &amp; Applicability" />
-                <ComboBox ItemsSource="{Binding PerformanceApplicabilityItems}" 
-                          SelectedValue="{Binding Selection.PerformanceApplicability}"
-                          SelectedValuePath="Value"
-                          DisplayMemberPath="DisplayName"
-                          Margin="0,0,0,8"/>
-            </StackPanel>
-        </GroupBox>
+        <StackPanel Orientation="Horizontal">
+          <Image Source="/Assets/performance.png" Width="16" Height="16" Margin="0,0,0,0" VerticalAlignment="Center" />
+          <Label Content="Performance &amp; Applicability:" />
+        </StackPanel>
+        <ComboBox ItemsSource="{Binding PerformanceApplicabilityItems}"
+                            SelectedValue="{Binding Selection.PerformanceApplicability}"
+                            SelectedValuePath="Value"
+                            DisplayMemberPath="DisplayName"
+                            Margin="0,0,0,8"/>
+      </StackPanel>
+    </GroupBox>
 
-        <TextBlock Text="{Binding Score, StringFormat=Score: {0}}"
+    <TextBlock Text="{Binding Score, StringFormat=Score: {0}}"
                    FontSize="16"
                    FontWeight="Bold"
-                   Grid.Row="1" 
-                   Grid.Column="3" 
+                   Grid.Row="1"
+                   Grid.Column="3"
                    Margin="46,228,205,14"/>
 
-        <Button Content="Calculate"
+    <Button Content="Calculate"
                 Command="{Binding DoWorkCommand}"
                 Width="188"
                 HorizontalAlignment="Right"
                 Grid.Row="1"
                 Grid.Column="2"
                 Margin="0,228,30,14"/>
-    </Grid>
+  </Grid>
 </Window>

@@ -9,9 +9,9 @@
     <UseWPF>true</UseWPF>
 
     <!-- Version Information -->
-    <Version>0.0.3</Version>
-    <AssemblyVersion>0.0.3</AssemblyVersion>
-    <FileVersion>0.0.3</FileVersion>
+    <Version>0.1.0</Version>
+    <AssemblyVersion>0.1.0</AssemblyVersion>
+    <FileVersion>0.1.0</FileVersion>
     <ProductName>GACS - Green Assessment of CQDs Synthesis</ProductName>
     <Company>Your Company Name</Company>
     <Copyright>Copyright © $(Company) $([System.DateTime]::Now.Year)</Copyright>
@@ -33,16 +33,23 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="Assets\appicon.ico" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.9" />
   </ItemGroup>
 
   <ItemGroup>
     <Resource Include="Assets\appicon.ico" />
+    <Resource Include="Assets\energy-input.png" />
+    <Resource Include="Assets\morphology-uniformity.png" />
+    <Resource Include="Assets\performance.png" />
+    <Resource Include="Assets\precursor-origin.png" />
+    <Resource Include="Assets\purification-simplicity.png" />
+    <Resource Include="Assets\quantum-yield.png" />
+    <Resource Include="Assets\solvent-greeness.png" />
+    <Resource Include="Assets\synthesis-simplicity.png" />
+    <Resource Include="Assets\synthesis-time.png" />
+    <Resource Include="Assets\waste-generation.png" />
+    <Resource Include="Assets\yield.png" />
   </ItemGroup>
 
 </Project>

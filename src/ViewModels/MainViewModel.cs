@@ -4,7 +4,7 @@ using GacsApp.Models;
 using GacsApp.Models.ProductQuality;
 using GacsApp.Models.ResourceSustainability;
 using GacsApp.Models.SynthesisEfficiency;
-using GacsApp.Services;
+using GacsApp.Services.interfaces;
 using GacsApp.Utils;
 
 namespace GacsApp.ViewModels;

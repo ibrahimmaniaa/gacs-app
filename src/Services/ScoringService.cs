@@ -1,5 +1,5 @@
 ﻿using GacsApp.Models;
-using GacsApp.Models.ResourceSustainability;
+using GacsApp.Services.interfaces;
 
 namespace GacsApp.Services;
 
