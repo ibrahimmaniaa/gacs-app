@@ -4,7 +4,7 @@
         Title="GACS - Enhanced Green Assessment of CQDs Synthesis" Height="600" Width="1600"
         ResizeMode="NoResize"
         Icon="/Assets/appicon.ico">
-  <Grid Margin="6">
+  <Grid x:Name="MainGrid" Margin="6">
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto" />
       <RowDefinition Height="Auto" />
@@ -154,18 +154,7 @@
                 Grid.Column="2"
                 Margin="0,228,30,14"/>
 
-    <Ellipse x:Name="DynamicCircle"
-             Width="360" Height="360"
-             HorizontalAlignment="Left"
-             VerticalAlignment="Top"
-             Grid.Column="2" Grid.ColumnSpan="2" Margin="221,74,0,0" Grid.Row="0" Grid.RowSpan="2">
-      <Ellipse.Fill>
-        <RadialGradientBrush x:Name="CircleBrush" RadiusX="0.8" RadiusY="0.8">
-          <GradientStop Color="Red" Offset="0" />
-          <GradientStop Color="Yellow" Offset="1" />
-        </RadialGradientBrush>
-      </Ellipse.Fill>
-    </Ellipse>
+    <Canvas x:Name="PizzaCanvas" Margin="102,5,118,68" Grid.Row="0" Grid.Column="2" Grid.RowSpan="2" Grid.ColumnSpan="2" />
 
   </Grid>
 </Window>
