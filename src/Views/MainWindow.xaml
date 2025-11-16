@@ -11,10 +11,10 @@
     </Grid.RowDefinitions>
 
     <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition />
+      <ColumnDefinition Width="*" />
+      <ColumnDefinition Width="*" />
+      <ColumnDefinition Width="*" />
+      <ColumnDefinition />
     </Grid.ColumnDefinitions>
 
     <GroupBox Header="Resource Sustainability &amp; Environmental Impact" Grid.Row="0" Grid.Column="0" Margin="8,0,8,8">
@@ -153,5 +153,19 @@
                 Grid.Row="1"
                 Grid.Column="2"
                 Margin="0,228,30,14"/>
+
+    <Ellipse x:Name="DynamicCircle"
+             Width="360" Height="360"
+             HorizontalAlignment="Left"
+             VerticalAlignment="Top"
+             Grid.Column="2" Grid.ColumnSpan="2" Margin="221,74,0,0" Grid.Row="0" Grid.RowSpan="2">
+      <Ellipse.Fill>
+        <RadialGradientBrush x:Name="CircleBrush" RadiusX="0.8" RadiusY="0.8">
+          <GradientStop Color="Red" Offset="0" />
+          <GradientStop Color="Yellow" Offset="1" />
+        </RadialGradientBrush>
+      </Ellipse.Fill>
+    </Ellipse>
+
   </Grid>
 </Window>

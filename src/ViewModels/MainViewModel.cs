@@ -11,7 +11,7 @@ namespace GacsApp.ViewModels;
 
 public partial class MainViewModel : ObservableObject
 {
-    private readonly IScoringService _scoringService;
+    private readonly IScoringService scoringService;
 
     public IEnumerable<EnumDisplayItem<PrecursorOrigin>> PrecursorOriginItems => EnumResolver.GetDisplayItems<PrecursorOrigin>();
     public IEnumerable<EnumDisplayItem<SolventGreenness>> SolventGreennessItems => EnumResolver.GetDisplayItems<SolventGreenness>();
@@ -37,7 +37,7 @@ public partial class MainViewModel : ObservableObject
 
     public MainViewModel(IScoringService scoringService)
     {
-        _scoringService = scoringService;
+        this.scoringService = scoringService;
         DoWorkCommand = new AsyncRelayCommand(CalculateScoreAsync);
     }
 
@@ -46,6 +46,6 @@ public partial class MainViewModel : ObservableObject
     {
         if (Selection.GetAllSelectedEnums().Any(v => v == null)) return;
 
-        Score = await _scoringService.CalculateTotalScoreAsync(Selection);
+        Score = await scoringService.CalculateTotalScoreAsync(Selection);
     }
 }
