@@ -1,7 +1,10 @@
 ﻿using System.ComponentModel;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
+
+using GacsApp.Models;
 
 
 namespace GacsApp.ViewModels;
@@ -45,7 +48,7 @@ public partial class MainWindow
 
     double startAngle = 0;
 
-    foreach (int sliceAngle in viewModel.SliceSizes)
+    foreach (int sliceAngle in SliceConfiguration.GetSliceAngles())
     {
       int randomIndex = random.Next(viewModel.SliceColors.Count);
       Brush sliceBrush = viewModel.SliceColors[randomIndex];
@@ -69,26 +72,26 @@ public partial class MainWindow
       double endAngleRadians = (startAngle + sliceAngle) * Math.PI / 180;
 
       Point arcStartPoint = new(
-                             CENTER_X + RADIUS * Math.Cos(startAngleRadians),
-                             CENTER_Y + RADIUS * Math.Sin(startAngleRadians)
-                            );
+                           CENTER_X + RADIUS * Math.Cos(startAngleRadians),
+                           CENTER_Y + RADIUS * Math.Sin(startAngleRadians)
+                          );
 
       Point arcEndPoint = new(
-                           CENTER_X + RADIUS * Math.Cos(endAngleRadians),
-                           CENTER_Y + RADIUS * Math.Sin(endAngleRadians)
-                          );
+                         CENTER_X + RADIUS * Math.Cos(endAngleRadians),
+                         CENTER_Y + RADIUS * Math.Sin(endAngleRadians)
+                        );
 
 
       figure.Segments.Add(new LineSegment(arcStartPoint, true));
 
       figure.Segments.Add(new ArcSegment(
-                                         arcEndPoint,
-                                         new Size(RADIUS, RADIUS),
-                                         0,
-                                         sliceAngle > 180,
-                                         SweepDirection.Clockwise,
-                                         true
-                                        ));
+                                       arcEndPoint,
+                                       new Size(RADIUS, RADIUS),
+                                       0,
+                                       sliceAngle > 180,
+                                       SweepDirection.Clockwise,
+                                       true
+                                      ));
 
       pizzaSliceGeometry.Figures.Add(figure);
 

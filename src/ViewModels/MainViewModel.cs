@@ -46,15 +46,12 @@ public partial class MainViewModel : ObservableObject
   public IAsyncRelayCommand DoWorkCommand { get; }
 
 
-  public int[] SliceSizes { get; } = [25, 30, 35, 28, 40, 32, 38, 27, 33, 36, 36];
-
   public List<Brush> SliceColors { get; } =
   [
     new SolidColorBrush((Color)ColorConverter.ConvertFromString("#52B788")), // Green
     new SolidColorBrush((Color)ColorConverter.ConvertFromString("#85C17E")), // Light Green
     new SolidColorBrush((Color)ColorConverter.ConvertFromString("#B5D07F")), // Yellow-Green
     new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D9D96F")), // Yellow
-    new SolidColorBrush((Color)ColorConverter.ConvertFromString("#F8D66D")), // Light Yellow
     new SolidColorBrush((Color)ColorConverter.ConvertFromString("#F8B739")), // Orange-Yellow
     new SolidColorBrush((Color)ColorConverter.ConvertFromString("#F08C3A")), // Orange
     new SolidColorBrush((Color)ColorConverter.ConvertFromString("#E85D4A")), // Orange-Red
