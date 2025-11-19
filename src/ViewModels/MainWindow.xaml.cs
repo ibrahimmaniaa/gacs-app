@@ -1,5 +1,4 @@
-﻿using SkiaSharp;
-using SkiaSharp.Views.Desktop;
+﻿using System.ComponentModel;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Shapes;
@@ -10,168 +9,94 @@ namespace GacsApp.ViewModels;
 /// <summary>
 /// Interaction logic for MainWindow.xaml
 /// </summary>
-public partial class MainWindow : Window
+public partial class MainWindow
 {
-  private readonly MainViewModel _viewModel;
-  private const int SliceCount = 11;
+  private readonly MainViewModel viewModel;
 
-  // Slice sizes (must sum to 360); example uneven slices
-  private readonly float[] sliceAngles = new float[]
-                                         {
-                                           20, 15, 25, 40, 10, 35, 30, 45, 20, 30, 70
-                                         };
-
-  // Colors for each slice (computed dynamically)
-  private readonly SKColor[] sliceColors = new SKColor[SliceCount];
 
   public MainWindow(MainViewModel mainViewModel)
   {
     InitializeComponent();
-    _viewModel = mainViewModel;
+    viewModel = mainViewModel;
     DataContext = mainViewModel;
 
-    Loaded += MainWindow_Loaded;
-
-    for (int i = 0; i < SliceCount; i++)
-    {
-      float t = i / (float)(SliceCount - 1); // 0..1
-      sliceColors[i] = InterpolateGradient(t);
-    }
+    viewModel.PropertyChanged += ViewModel_PropertyChanged;
   }
 
-  private void MainWindow_Loaded(object sender, RoutedEventArgs e)
+  private void ViewModel_PropertyChanged(object? sender, PropertyChangedEventArgs e)
   {
-    DrawPizzaSlices();
+    if (e.PropertyName == nameof(MainViewModel.Score))
+    {
+      PizzaCanvas.Children.Clear();
+
+      if (viewModel.Score != 0)
+      {
+        DrawPizzaSlices();
+      }
+    }
   }
 
   private void DrawPizzaSlices()
   {
-    double centerX = 300;
-    double centerY = 250;
+    Random random = new();
+    const double CENTER_X = 300;
+    const double CENTER_Y = 250;
     const double RADIUS = 180;
 
     double startAngle = 0;
 
-    for (int i = 0; i < _viewModel.SliceSizes.Length; i++)
+    foreach (int sliceAngle in viewModel.SliceSizes)
     {
-      double sliceAngle = _viewModel.SliceSizes[i];
-
-      Brush sliceBrush = _viewModel.SliceColors;
+      int randomIndex = random.Next(viewModel.SliceColors.Count);
+      Brush sliceBrush = viewModel.SliceColors[randomIndex];
 
       Path path = new()
-      {
-        Fill = sliceBrush,
-        Stroke = sliceBrush, // Set the stroke color to match the slice color
-      };
+                  {
+                    Fill = sliceBrush,
+                    Stroke = Brushes.White,
+                    StrokeThickness = 1
+                  };
 
-      // Create the geometry for the pizza slice
-      PathGeometry geometry = new();
+      PathGeometry pizzaSliceGeometry = new();
+
       PathFigure figure = new()
                           {
-                            StartPoint = new Point(centerX, centerY),
+                            StartPoint = new Point(CENTER_X, CENTER_Y),
                             IsClosed = true
                           };
 
-      // Calculate start and end points of the arc
-      double startRadians = startAngle * Math.PI / 180;
-      double endRadians = (startAngle + sliceAngle) * Math.PI / 180;
+      double startAngleRadians = startAngle * Math.PI / 180;
+      double endAngleRadians = (startAngle + sliceAngle) * Math.PI / 180;
 
-      Point startPoint = new(
-                             centerX + RADIUS * Math.Cos(startRadians),
-                             centerY + RADIUS * Math.Sin(startRadians)
+      Point arcStartPoint = new(
+                             CENTER_X + RADIUS * Math.Cos(startAngleRadians),
+                             CENTER_Y + RADIUS * Math.Sin(startAngleRadians)
                             );
 
-      Point endPoint = new(
-                           centerX + RADIUS * Math.Cos(endRadians),
-                           centerY + RADIUS * Math.Sin(endRadians)
+      Point arcEndPoint = new(
+                           CENTER_X + RADIUS * Math.Cos(endAngleRadians),
+                           CENTER_Y + RADIUS * Math.Sin(endAngleRadians)
                           );
 
-      // Add line to start of arc
-      figure.Segments.Add(new LineSegment(startPoint, true));
 
-      // Add arc segment
+      figure.Segments.Add(new LineSegment(arcStartPoint, true));
+
       figure.Segments.Add(new ArcSegment(
-        endPoint,
-        new Size(RADIUS, RADIUS),
-        0,
-        sliceAngle > 180, // isLargeArc
-        SweepDirection.Clockwise,
-        true
-      ));
+                                         arcEndPoint,
+                                         new Size(RADIUS, RADIUS),
+                                         0,
+                                         sliceAngle > 180,
+                                         SweepDirection.Clockwise,
+                                         true
+                                        ));
 
-      geometry.Figures.Add(figure);
-      path.Data = geometry;
+      pizzaSliceGeometry.Figures.Add(figure);
 
-      // Add the path to the Canvas
+      path.Data = pizzaSliceGeometry;
+
       PizzaCanvas.Children.Add(path);
 
       startAngle += sliceAngle;
-    }
-  }
-
-  private SKColor InterpolateGradient(float t)
-  {
-    // 0 = green, 0.5 = yellow, 1 = red
-    if (t < 0.5f)
-    {
-      float u = t / 0.5f;
-      return new SKColor(
-          (byte)(0 + u * 255),
-          (byte)(255 - u * 255),
-          0);
-    }
-    else
-    {
-      float u = (t - 0.5f) / 0.5f;
-      return new SKColor(
-          255,
-          (byte)(255 - u * 255),
-          0);
-    }
-  }
-
-  private void OnPaintSurface(object sender, SKPaintSurfaceEventArgs e)
-  {
-    var canvas = e.Surface.Canvas;
-    canvas.Clear(SKColors.White);
-
-    float w = e.Info.Width;
-    float h = e.Info.Height;
-
-    float radius = Math.Min(w, h) * 0.4f;
-    float strokeWidth = radius; // full pie
-
-    var center = new SKPoint(w / 2, h / 2);
-    float startAngle = -90f; // top
-
-    for (int i = 0; i < SliceCount; i++)
-    {
-      float sweepAngle = sliceAngles[i];
-      var prevColor = i == 0 ? sliceColors[0] : sliceColors[i - 1];
-      var currentColor = sliceColors[i];
-
-      using var paint = new SKPaint
-      {
-        Style = SKPaintStyle.Stroke,
-        StrokeWidth = strokeWidth,
-        IsAntialias = true,
-        Shader = SKShader.CreateSweepGradient(
-              center,
-              new[] { prevColor, currentColor },
-              new[] { 0f, 1f },
-              SKMatrix.CreateRotationDegrees(startAngle, center.X, center.Y)
-          )
-      };
-
-      // Draw arc
-      canvas.DrawArc(
-                     new SKRect(center.X - radius, center.Y - radius, center.X + radius, center.Y + radius),
-                     startAngle,
-                     sweepAngle,
-                     false,
-                     paint);
-
-      startAngle += sweepAngle;
     }
   }
 }

@@ -1,6 +1,4 @@
-﻿using System.Windows;
-
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using GacsApp.Models;
 using GacsApp.Models.ProductQuality;
@@ -48,25 +46,19 @@ public partial class MainViewModel : ObservableObject
   public IAsyncRelayCommand DoWorkCommand { get; }
 
 
-  public double[] SliceSizes { get; } = [25, 30, 35, 28, 40, 32, 38, 27, 33, 36, 36];
+  public int[] SliceSizes { get; } = [25, 30, 35, 28, 40, 32, 38, 27, 33, 36, 36];
 
-  public Brush SliceColors { get; } = new LinearGradientBrush(
-                                                              [
-                                                                new GradientStop((Color)ColorConverter.ConvertFromString("#52B788"), 0.0), // Green
-                                                                new GradientStop((Color)ColorConverter.ConvertFromString("#85C17E"), 0.4), // Light Green
-                                                                new GradientStop((Color)ColorConverter.ConvertFromString("#B5D07F"), 0.41), // Yellow-Green
-                                                                new GradientStop((Color)ColorConverter.ConvertFromString("#D9D96F"), 0.42), // Yellow
-                                                                new GradientStop((Color)ColorConverter.ConvertFromString("#F8D66D"), 0.43), // Light Yellow
-                                                                new GradientStop((Color)ColorConverter.ConvertFromString("#F8B739"), 0.47), // Orange-Yellow
-                                                                new GradientStop((Color)ColorConverter.ConvertFromString("#F08C3A"), 0.6), // Orange
-                                                                new GradientStop((Color)ColorConverter.ConvertFromString("#E85D4A"), 0.7), // Orange-Red
-                                                                new GradientStop((Color)ColorConverter.ConvertFromString("#E85D75"), 0.8), // Light Red
-                                                                new GradientStop((Color)ColorConverter.ConvertFromString("#E85D9A"), 0.9), // Pinkish Red
-                                                                new GradientStop((Color)ColorConverter.ConvertFromString("#FF0000"), 1.0) // Red
-                                                              ],
-                                                              new Point(0, 0),
-                                                              new Point(1, 0)
-                                                             );
+  public List<Brush> SliceColors { get; } =
+  [
+    new SolidColorBrush((Color)ColorConverter.ConvertFromString("#52B788")), // Green
+    new SolidColorBrush((Color)ColorConverter.ConvertFromString("#85C17E")), // Light Green
+    new SolidColorBrush((Color)ColorConverter.ConvertFromString("#B5D07F")), // Yellow-Green
+    new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D9D96F")), // Yellow
+    new SolidColorBrush((Color)ColorConverter.ConvertFromString("#F8D66D")), // Light Yellow
+    new SolidColorBrush((Color)ColorConverter.ConvertFromString("#F8B739")), // Orange-Yellow
+    new SolidColorBrush((Color)ColorConverter.ConvertFromString("#F08C3A")), // Orange
+    new SolidColorBrush((Color)ColorConverter.ConvertFromString("#E85D4A")), // Orange-Red
+  ];
 
 
   public MainViewModel(IScoringService scoringService)
