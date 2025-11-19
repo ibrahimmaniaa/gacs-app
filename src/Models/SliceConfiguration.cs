@@ -48,4 +48,22 @@ public static class SliceConfiguration
     MorphologyUniformityAngle,
     PerformanceApplicabilityAngle
   ];
+
+  /// <summary>
+  /// Gets the maximum possible scores for each criterion in order.
+  /// </summary>
+  public static int[] GetMaxScores() =>
+  [
+      12,
+      10,
+      8,
+      10,
+      5,
+      10,
+      5,
+      10,
+      10,
+      10,
+      10
+  ];
 }

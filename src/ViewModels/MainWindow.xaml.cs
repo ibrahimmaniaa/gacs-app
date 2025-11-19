@@ -41,17 +41,24 @@ public partial class MainWindow
 
   private void DrawPizzaSlices()
   {
-    Random random = new();
     const double CENTER_X = 300;
     const double CENTER_Y = 250;
     const double RADIUS = 180;
 
     double startAngle = 0;
+    int sliceIndex = 0;
 
-    foreach (int sliceAngle in SliceConfiguration.GetSliceAngles())
+    // Get individual scores and max scores for each criterion
+    int[] individualScores = GetIndividualScores();
+    int[] maxScores = SliceConfiguration.GetMaxScores();
+
+    foreach (double sliceAngle in SliceConfiguration.GetSliceAngles())
     {
-      int randomIndex = random.Next(viewModel.SliceColors.Count);
-      Brush sliceBrush = viewModel.SliceColors[randomIndex];
+      // Calculate color index based on the score ratio
+      int score = individualScores[sliceIndex];
+      int maxScore = maxScores[sliceIndex];
+
+      Brush sliceBrush = GetColorForScore(score, maxScore);
 
       Path path = new()
                   {
@@ -100,6 +107,44 @@ public partial class MainWindow
       PizzaCanvas.Children.Add(path);
 
       startAngle += sliceAngle;
+      sliceIndex++;
     }
+  }
+
+  private int[] GetIndividualScores()
+  {
+    var selection = viewModel.Selection;
+
+    return new[]
+    {
+      selection.PrecursorOrigin.HasValue ? (int)selection.PrecursorOrigin.Value : 0,
+      selection.SolventGreenness.HasValue ? (int)selection.SolventGreenness.Value : 0,
+      selection.EnergyInput.HasValue ? (int)selection.EnergyInput.Value : 0,
+      selection.EFactorWasteGeneration.HasValue ? (int)selection.EFactorWasteGeneration.Value : 0,
+      selection.SynthesisTime.HasValue ? (int)selection.SynthesisTime.Value : 0,
+      selection.SimplicityScalability.HasValue ? (int)selection.SimplicityScalability.Value : 0,
+      selection.PurificationSimplicity.HasValue ? (int)selection.PurificationSimplicity.Value : 0,
+      selection.ReactionMassEfficiency.HasValue ? (int)selection.ReactionMassEfficiency.Value : 0,
+      selection.QuantumYield.HasValue ? (int)selection.QuantumYield.Value : 0,
+      selection.MorphologyUniformity.HasValue ? (int)selection.MorphologyUniformity.Value : 0,
+      selection.PerformanceApplicability.HasValue ? (int)selection.PerformanceApplicability.Value : 0
+    };
+  }
+
+  private Brush GetColorForScore(int score, int maxScore)
+  {
+    if (maxScore == 0)
+      return viewModel.SliceColors[^1]; // Last color (red) for 0 max score
+
+    // Calculate the ratio: 1.0 = highest score, 0.0 = lowest score
+    double ratio = (double)score / maxScore;
+
+    // Map ratio to color index: ratio 1.0 -> index 0 (green), ratio 0.0 -> index 10 (red)
+    int colorIndex = (int)Math.Round((1.0 - ratio) * (viewModel.SliceColors.Count - 1));
+
+    // Clamp to valid range
+    colorIndex = Math.Clamp(colorIndex, 0, viewModel.SliceColors.Count - 1);
+
+    return viewModel.SliceColors[colorIndex];
   }
 }
