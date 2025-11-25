@@ -34,14 +34,15 @@ public partial class MainWindow
       if (viewModel.Score != 0)
       {
         DrawPizzaSlices();
+        UpdateScoreIndicator();
       }
     }
   }
 
   private void DrawPizzaSlices()
   {
-    const double CENTER_X = 300;
-    const double CENTER_Y = 250;
+    const double CENTER_X = 280;
+    const double CENTER_Y = 210;
     const double RADIUS = 180;
 
     double startAngle = 0;
@@ -108,6 +109,60 @@ public partial class MainWindow
       startAngle += sliceAngle;
       sliceIndex++;
     }
+  }
+
+  private void UpdateScoreIndicator()
+  {
+    int totalScore = viewModel.Score;
+    const int MAX_TOTAL_SCORE = 100; // Sum of all max scores
+
+    // Calculate the ratio: 1.0 = highest score, 0.0 = lowest score
+    double ratio = (double)totalScore / MAX_TOTAL_SCORE;
+
+    // Map ratio to color index: ratio 1.0 -> index 0 (green), ratio 0.0 -> index 10 (red)
+    int colorIndex = (int)Math.Round((1.0 - ratio) * (viewModel.SliceColors.Count - 1));
+    colorIndex = Math.Clamp(colorIndex, 0, viewModel.SliceColors.Count - 1);
+
+    // Get the base color
+    SolidColorBrush baseColorBrush = (SolidColorBrush)viewModel.SliceColors[colorIndex];
+    Color baseColor = baseColorBrush.Color;
+
+    // Create shiny balloon effect with radial gradient
+    RadialGradientBrush shinyBrush = new()
+    {
+      GradientOrigin = new Point(0.3, 0.3),
+      Center = new Point(0.5, 0.5),
+      RadiusX = 0.8,
+      RadiusY = 0.8
+    };
+
+    // Add gradient stops for shiny effect
+    shinyBrush.GradientStops.Add(new GradientStop(Colors.White, 0.0)); // Highlight
+    shinyBrush.GradientStops.Add(new GradientStop(LightenColor(baseColor, 0.4), 0.3));
+    shinyBrush.GradientStops.Add(new GradientStop(baseColor, 0.6));
+    shinyBrush.GradientStops.Add(new GradientStop(DarkenColor(baseColor, 0.3), 1.0)); // Shadow
+
+    ScoreIndicatorCircle.Fill = shinyBrush;
+  }
+
+  private Color LightenColor(Color color, double amount)
+  {
+    return Color.FromArgb(
+        color.A,
+        (byte)Math.Min(255, color.R + (255 - color.R) * amount),
+        (byte)Math.Min(255, color.G + (255 - color.G) * amount),
+        (byte)Math.Min(255, color.B + (255 - color.B) * amount)
+    );
+  }
+
+  private Color DarkenColor(Color color, double amount)
+  {
+    return Color.FromArgb(
+        color.A,
+        (byte)(color.R * (1 - amount)),
+        (byte)(color.G * (1 - amount)),
+        (byte)(color.B * (1 - amount))
+    );
   }
 
   private int[] GetIndividualScores()
