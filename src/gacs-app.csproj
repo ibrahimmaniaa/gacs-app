@@ -40,6 +40,7 @@
   <ItemGroup>
     <Resource Include="Assets\appicon.ico" />
     <Resource Include="Assets\energy-input.png" />
+    <Resource Include="Assets\logo.png" />
     <Resource Include="Assets\morphology-uniformity.png" />
     <Resource Include="Assets\performance.png" />
     <Resource Include="Assets\precursor-origin.png" />
