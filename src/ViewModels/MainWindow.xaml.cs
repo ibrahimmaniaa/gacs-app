@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
 
@@ -63,7 +62,7 @@ public partial class MainWindow
       Path path = new()
                   {
                     Fill = sliceBrush,
-                    Stroke = Brushes.White,
+                    Stroke = Brushes.Black,
                     StrokeThickness = 1
                   };
 

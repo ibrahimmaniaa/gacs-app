@@ -4,10 +4,10 @@ namespace GacsApp.Models.ProductQuality;
 
 public enum PerformanceApplicability
 {
-    [Description("High-performance in demanding application (e.g., in vivo bioimaging, electrocatalysis) with data")]
+    [Description("High-performance in demanding application with data")]
     HighPerformance = 10,
 
-    [Description("Good performance in standard application (e.g., sensing, in vitro imaging) with data")]
+    [Description("Good performance in standard application with data")]
     GoodPerformance = 7,
 
     [Description("Application demonstrated but with mediocre performance")]

@@ -22,6 +22,23 @@
         <StackPanel Orientation="Horizontal">
           <Image Source="/Assets/precursor-origin.png" Width="16" Height="16" Margin="0,0,0,0" VerticalAlignment="Center" />
           <Label Content="Precursor Origin &amp; Renewability:" />
+          <Image Source="/Views/help.jpg" Width="16" Height="16" Cursor="Help" HorizontalAlignment="Right">
+            <Image.ToolTip>
+              <ToolTip>
+                <TextBlock MaxWidth="250" TextWrapping="Wrap">
+                    • Waste biomass or agri-food waste (e.g. fruit peels, bagasse)
+                    <LineBreak/>
+                    • Abundant, non-waste natural materials (e.g. leaves, grass, biomass)
+                    <LineBreak/>
+                    • Purified bio-based molecules (e.g. citric acid, urea, glucose)
+                    <LineBreak/>
+                    • Common synthetic chemicals (e.g. Quinone with ethylenediamine)
+                    <LineBreak/>
+                    • Chemicals with known high toxicity (e.g. heavy metal salts, concentrated acids as main precursor)
+                </TextBlock>
+              </ToolTip>
+            </Image.ToolTip>
+          </Image>
         </StackPanel>
         <ComboBox ItemsSource="{Binding PrecursorOriginItems}"
                           SelectedValue="{Binding Selection.PrecursorOrigin}"
@@ -32,6 +49,23 @@
         <StackPanel Orientation="Horizontal">
           <Image Source="/Assets/solvent-greeness.png" Width="16" Height="16" Margin="0,0,0,0" VerticalAlignment="Center" />
           <Label Content="Solvent Greenness:" />
+          <Image Source="/Views/help.jpg" Width="16" Height="16" Cursor="Help" HorizontalAlignment="Right">
+            <Image.ToolTip>
+              <ToolTip>
+                <TextBlock MaxWidth="250" TextWrapping="Wrap">
+                  • Water only (any grade)
+                  <LineBreak/>
+                  • Green solvents (e.g. Ethanol, Methanol, Glycerol, Cyrene®, Ionic liquid)
+                  <LineBreak/>
+                  • Low-toxicity solvents (e.g. Acetone, Ethyl Acetate, DMSO)
+                  <LineBreak/>
+                  • Problematic solvents (e.g. DMF, Pyridine, DCM)
+                  <LineBreak/>
+                  • Highly hazardous (e.g. concentrated acids/bases as solvent, benzene, CCl4).
+                </TextBlock>
+              </ToolTip>
+            </Image.ToolTip>
+          </Image>
         </StackPanel>
         <ComboBox ItemsSource="{Binding SolventGreennessItems}"
                           SelectedValue="{Binding Selection.SolventGreenness}"
@@ -80,6 +114,19 @@
         <StackPanel Orientation="Horizontal">
           <Image Source="/Assets/synthesis-simplicity.png" Width="16" Height="16" Margin="0,0,0,0" VerticalAlignment="Center" />
           <Label Content="Overall Simplicity &amp; Scalability:" />
+          <Image Source="/Views/help.jpg" Width="16" Height="16" Cursor="Help" HorizontalAlignment="Right">
+            <Image.ToolTip>
+              <ToolTip>
+                <TextBlock MaxWidth="250" TextWrapping="Wrap">
+                  • One-pot with simple, common lab equipment (e.g. hotplate, ultrasonic bath)
+                  <LineBreak/>
+                  • One-pot with single specialized reactor (e.g. microwave, autoclave)
+                  <LineBreak/>
+                  • Multi-step synthesis or complex instrumentation (e.g. electrochemical, laser ablation)
+                </TextBlock>
+              </ToolTip>
+            </Image.ToolTip>
+          </Image>
         </StackPanel>
         <ComboBox ItemsSource="{Binding SimplicityScalabilityItems}"
                           SelectedValue="{Binding Selection.SimplicityScalability}"
@@ -90,6 +137,19 @@
         <StackPanel Orientation="Horizontal">
           <Image Source="/Assets/purification-simplicity.png" Width="16" Height="16" Margin="0,0,0,0" VerticalAlignment="Center" />
           <Label Content="Purification Simplicity:" />
+          <Image Source="/Views/help.jpg" Width="16" Height="16" Cursor="Help" HorizontalAlignment="Right">
+            <Image.ToolTip>
+              <ToolTip>
+                <TextBlock MaxWidth="250" TextWrapping="Wrap">
+                  • None or trivial (e.g. dilution, simple filtration)
+                  <LineBreak/>
+                  • Single simple step (e.g., centrifugation, dialysis)
+                  <LineBreak/>
+                  • Multiple complex steps (e.g., chromatography, phase separation)
+                </TextBlock>
+              </ToolTip>
+            </Image.ToolTip>
+          </Image>
         </StackPanel>
         <ComboBox ItemsSource="{Binding PurificationSimplicityItems}"
                           SelectedValue="{Binding Selection.PurificationSimplicity}"
@@ -138,6 +198,17 @@
         <StackPanel Orientation="Horizontal">
           <Image Source="/Assets/performance.png" Width="16" Height="16" Margin="0,0,0,0" VerticalAlignment="Center" />
           <Label Content="Performance &amp; Applicability:" />
+          <Image Source="/Views/help.jpg" Width="16" Height="16" Cursor="Help" HorizontalAlignment="Right">
+            <Image.ToolTip>
+              <ToolTip>
+                <TextBlock MaxWidth="250" TextWrapping="Wrap">
+                  • High-performance in a demanding application with data (e.g. in vivo bioimaging, electrocatalysis)
+                  <LineBreak/>
+                  • Good performance in a standard application with data (e.g. sensing of a specific analyte, in vitro imaging)
+                </TextBlock>
+              </ToolTip>
+            </Image.ToolTip>
+          </Image>
         </StackPanel>
         <ComboBox ItemsSource="{Binding PerformanceApplicabilityItems}"
                             SelectedValue="{Binding Selection.PerformanceApplicability}"

@@ -48,13 +48,12 @@ public partial class MainViewModel : ObservableObject
 
   public List<Brush> SliceColors { get; } =
   [
-    new SolidColorBrush((Color)ColorConverter.ConvertFromString("#52B788")), // Green
-    new SolidColorBrush((Color)ColorConverter.ConvertFromString("#85C17E")), // Light Green
-    new SolidColorBrush((Color)ColorConverter.ConvertFromString("#B5D07F")), // Yellow-Green
-    new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D9D96F")), // Yellow
-    new SolidColorBrush((Color)ColorConverter.ConvertFromString("#F8B739")), // Orange-Yellow
-    new SolidColorBrush((Color)ColorConverter.ConvertFromString("#F08C3A")), // Orange
-    new SolidColorBrush((Color)ColorConverter.ConvertFromString("#E85D4A")), // Orange-Red
+    new SolidColorBrush((Color)ColorConverter.ConvertFromString("#268602")), // Dark Green
+    new SolidColorBrush((Color)ColorConverter.ConvertFromString("#ACD201")), // Yellowish Green
+    new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFF737")), // Light Yellow
+    new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFDB1F")), // Dark Yellow
+    new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFA51F")), // Orange
+    new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D90404")), // Red
   ];
 
 
