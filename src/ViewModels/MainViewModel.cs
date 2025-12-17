@@ -41,12 +41,12 @@ public partial class MainViewModel : ObservableObject
   private GacsSelection selection = new();
 
   [ObservableProperty]
-  private int score;
+  private int? score;
 
-  public IAsyncRelayCommand DoWorkCommand { get; }
+  public IAsyncRelayCommand CalculateScoreCommand { get; }
 
 
-  public List<Brush> SliceColors { get; } =
+  public IList<Brush> SliceColors { get; } =
   [
     new SolidColorBrush((Color)ColorConverter.ConvertFromString("#268602")), // Dark Green
     new SolidColorBrush((Color)ColorConverter.ConvertFromString("#ACD201")), // Yellowish Green
@@ -60,7 +60,7 @@ public partial class MainViewModel : ObservableObject
   public MainViewModel(IScoringService scoringService)
   {
     this.scoringService = scoringService;
-    DoWorkCommand = new AsyncRelayCommand(CalculateScoreAsync);
+    CalculateScoreCommand = new AsyncRelayCommand(CalculateScoreAsync);
   }
 
 

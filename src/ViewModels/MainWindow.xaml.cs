@@ -1,7 +1,7 @@
-﻿using System.ComponentModel;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using System.ComponentModel;
 
 using GacsApp.Models;
 
@@ -31,7 +31,7 @@ public partial class MainWindow
     {
       PizzaCanvas.Children.Clear();
 
-      if (viewModel.Score != 0)
+      if (viewModel.Score != null)
       {
         DrawPizzaSlices();
         UpdateScoreIndicator();
@@ -41,8 +41,8 @@ public partial class MainWindow
 
   private void DrawPizzaSlices()
   {
-    const double CENTER_X = 280;
-    const double CENTER_Y = 210;
+    double centerX = PizzaCanvas.ActualWidth / 2;
+    double centerY = PizzaCanvas.ActualHeight / 2;
     const double RADIUS = 180;
 
     double startAngle = 0;
@@ -71,7 +71,7 @@ public partial class MainWindow
 
       PathFigure figure = new()
                           {
-                            StartPoint = new Point(CENTER_X, CENTER_Y),
+                            StartPoint = new Point(centerX, centerY),
                             IsClosed = true
                           };
 
@@ -79,13 +79,13 @@ public partial class MainWindow
       double endAngleRadians = (startAngle + sliceAngle) * Math.PI / 180;
 
       Point arcStartPoint = new(
-                           CENTER_X + RADIUS * Math.Cos(startAngleRadians),
-                           CENTER_Y + RADIUS * Math.Sin(startAngleRadians)
+                           centerX + RADIUS * Math.Cos(startAngleRadians),
+                           centerY + RADIUS * Math.Sin(startAngleRadians)
                           );
 
       Point arcEndPoint = new(
-                         CENTER_X + RADIUS * Math.Cos(endAngleRadians),
-                         CENTER_Y + RADIUS * Math.Sin(endAngleRadians)
+                         centerX + RADIUS * Math.Cos(endAngleRadians),
+                         centerY + RADIUS * Math.Sin(endAngleRadians)
                         );
 
 
@@ -113,7 +113,7 @@ public partial class MainWindow
 
   private void UpdateScoreIndicator()
   {
-    int totalScore = viewModel.Score;
+    int totalScore = viewModel.Score ?? 0;
     const int MAX_TOTAL_SCORE = 100; // Sum of all max scores
 
     // Calculate the ratio: 1.0 = highest score, 0.0 = lowest score
@@ -142,7 +142,7 @@ public partial class MainWindow
     shinyBrush.GradientStops.Add(new GradientStop(baseColor, 0.6));
     shinyBrush.GradientStops.Add(new GradientStop(DarkenColor(baseColor, 0.3), 1.0)); // Shadow
 
-    ScoreIndicatorCircle.Fill = shinyBrush;
+    ScoreIndicatorBallon.Fill = shinyBrush;
   }
 
   private Color LightenColor(Color color, double amount)
