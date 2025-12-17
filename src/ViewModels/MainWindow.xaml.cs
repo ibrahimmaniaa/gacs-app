@@ -2,6 +2,8 @@
 using System.Windows.Media;
 using System.Windows.Shapes;
 using System.ComponentModel;
+using System.Windows.Controls;
+using System.Windows.Media.Imaging;
 
 using GacsApp.Models;
 
@@ -31,7 +33,7 @@ public partial class MainWindow
     {
       PizzaCanvas.Children.Clear();
 
-      if (viewModel.Score != null)
+      if (Score != null)
       {
         DrawPizzaSlices();
         UpdateScoreIndicator();
@@ -44,13 +46,15 @@ public partial class MainWindow
     double centerX = PizzaCanvas.ActualWidth / 2;
     double centerY = PizzaCanvas.ActualHeight / 2;
     const double RADIUS = 180;
-
+    const double IMAGE_DISTANCE = 210; // Distance from center for images
+    const double IMAGE_SIZE = 24; // Size of the icon images
+    
     double startAngle = 0;
     int sliceIndex = 0;
 
-    // Get individual scores and max scores for each criterion
-    int[] individualScores = GetIndividualScores();
+ int[] individualScores = GetIndividualScores();
     int[] maxScores = SliceConfiguration.GetMaxScores();
+    string[] sliceIcons = GetSliceIcons();
 
     foreach (double sliceAngle in SliceConfiguration.GetSliceAngles())
     {
@@ -61,50 +65,69 @@ public partial class MainWindow
       Brush sliceBrush = GetColorForScore(score, maxScore);
 
       Path path = new()
-                  {
-                    Fill = sliceBrush,
-                    Stroke = Brushes.Black,
-                    StrokeThickness = 1
-                  };
+    {
+     Fill = sliceBrush,
+          Stroke = Brushes.Black,
+ StrokeThickness = 1
+  };
 
-      PathGeometry pizzaSliceGeometry = new();
+    PathGeometry pizzaSliceGeometry = new();
 
       PathFigure figure = new()
-                          {
-                            StartPoint = new Point(centerX, centerY),
-                            IsClosed = true
-                          };
+          {
+           StartPoint = new Point(centerX, centerY),
+       IsClosed = true
+      };
 
       double startAngleRadians = startAngle * Math.PI / 180;
       double endAngleRadians = (startAngle + sliceAngle) * Math.PI / 180;
 
       Point arcStartPoint = new(
-                           centerX + RADIUS * Math.Cos(startAngleRadians),
-                           centerY + RADIUS * Math.Sin(startAngleRadians)
-                          );
+ centerX + RADIUS * Math.Cos(startAngleRadians),
+         centerY + RADIUS * Math.Sin(startAngleRadians)
+            );
 
-      Point arcEndPoint = new(
-                         centerX + RADIUS * Math.Cos(endAngleRadians),
-                         centerY + RADIUS * Math.Sin(endAngleRadians)
-                        );
+ Point arcEndPoint = new(
+          centerX + RADIUS * Math.Cos(endAngleRadians),
+      centerY + RADIUS * Math.Sin(endAngleRadians)
+ );
 
 
       figure.Segments.Add(new LineSegment(arcStartPoint, true));
 
-      figure.Segments.Add(new ArcSegment(
-                                       arcEndPoint,
-                                       new Size(RADIUS, RADIUS),
-                                       0,
-                                       sliceAngle > 180,
-                                       SweepDirection.Clockwise,
-                                       true
-                                      ));
+  figure.Segments.Add(new ArcSegment(
+        arcEndPoint,
+      new Size(RADIUS, RADIUS),
+    0,
+        sliceAngle > 180,
+        SweepDirection.Clockwise,
+               true
+  ));
 
       pizzaSliceGeometry.Figures.Add(figure);
 
       path.Data = pizzaSliceGeometry;
 
       PizzaCanvas.Children.Add(path);
+
+    // Add icon image for this slice
+      double midAngle = startAngle + (sliceAngle / 2);
+      double midAngleRadians = midAngle * Math.PI / 180;
+      
+      double imageX = centerX + IMAGE_DISTANCE * Math.Cos(midAngleRadians) - (IMAGE_SIZE / 2);
+double imageY = centerY + IMAGE_DISTANCE * Math.Sin(midAngleRadians) - (IMAGE_SIZE / 2);
+
+      Image icon = new()
+      {
+        Width = IMAGE_SIZE,
+  Height = IMAGE_SIZE,
+        Source = new BitmapImage(new Uri(sliceIcons[sliceIndex], UriKind.Relative))
+      };
+
+  Canvas.SetLeft(icon, imageX);
+      Canvas.SetTop(icon, imageY);
+      
+      PizzaCanvas.Children.Add(icon);
 
       startAngle += sliceAngle;
       sliceIndex++;
@@ -167,10 +190,10 @@ public partial class MainWindow
 
   private int[] GetIndividualScores()
   {
-    var selection = viewModel.Selection;
+    GacsSelection selection = viewModel.Selection;
 
-    return new[]
-    {
+    return
+    [
       selection.PrecursorOrigin.HasValue ? (int)selection.PrecursorOrigin.Value : 0,
       selection.SolventGreenness.HasValue ? (int)selection.SolventGreenness.Value : 0,
       selection.EnergyInput.HasValue ? (int)selection.EnergyInput.Value : 0,
@@ -182,7 +205,7 @@ public partial class MainWindow
       selection.QuantumYield.HasValue ? (int)selection.QuantumYield.Value : 0,
       selection.MorphologyUniformity.HasValue ? (int)selection.MorphologyUniformity.Value : 0,
       selection.PerformanceApplicability.HasValue ? (int)selection.PerformanceApplicability.Value : 0
-    };
+    ];
   }
 
   private Brush GetColorForScore(int score, int maxScore)
@@ -201,4 +224,22 @@ public partial class MainWindow
 
     return viewModel.SliceColors[colorIndex];
   }
+
+  /// <summary>
+  /// Gets the icon paths for each criterion slice in order.
+  /// </summary>
+  private string[] GetSliceIcons() =>
+  [
+    "/Assets/precursor-origin.png",
+    "/Assets/solvent-greeness.png",
+    "/Assets/energy-input.png",
+    "/Assets/waste-generation.png",
+    "/Assets/synthesis-time.png",
+    "/Assets/synthesis-simplicity.png",
+    "/Assets/purification-simplicity.png",
+    "/Assets/yield.png",
+    "/Assets/quantum-yield.png",
+    "/Assets/morphology-uniformity.png",
+    "/Assets/performance.png"
+  ];
 }

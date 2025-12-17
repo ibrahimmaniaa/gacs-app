@@ -231,7 +231,8 @@
             Canvas.Left="861"
             Canvas.Top="500" HorizontalAlignment="Center" VerticalAlignment="Top"/>
 
-    <TextBlock Text="{Binding Score, StringFormat=Score: {0}, TargetNullValue='Score: '}"
+    <TextBlock x:Name="Score"
+               Text="{Binding Score, StringFormat=Score: {0}, TargetNullValue='Score: '}"
                FontSize="18"
                FontWeight="Bold"
                Width="80"
