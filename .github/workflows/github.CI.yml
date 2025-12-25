@@ -7,7 +7,7 @@ on:
     branches: [ main ]
 
 env:
-  SOLUTION_PATH: '*.sln'
+  SOLUTION_PATH: 'gacs-app.sln'
   PROJECT_PATH: 'src/gacs-app.csproj'
   TEST_PROJECT_PATH: 'tests/gacs-app.Tests.csproj'
   BUILD_CONFIGURATION: 'Release'
