@@ -7,6 +7,7 @@ on:
     branches: [ main ]
 
 env:
+  SOLUTION_PATH: '*.sln'
   PROJECT_PATH: 'src/gacs-app.csproj'
   TEST_PROJECT_PATH: 'tests/gacs-app.Tests.csproj'
   BUILD_CONFIGURATION: 'Release'
@@ -32,13 +33,13 @@ jobs:
         dotnet-version: ${{ env.DOTNET_VERSION }}
 
     - name: Restore dependencies
-      run: dotnet restore ${{ env.PROJECT_PATH }}
+      run: dotnet restore ${{ env.SOLUTION_PATH }}
 
     - name: Build application
-      run: dotnet build ${{ env.PROJECT_PATH }} --configuration ${{ env.BUILD_CONFIGURATION }} --no-restore
+      run: dotnet build ${{ env.SOLUTION_PATH }} --configuration ${{ env.BUILD_CONFIGURATION }} --no-restore
 
     - name: Run tests
-      run: dotnet test ${{ env.TEST_PROJECT_PATH }} --configuration ${{ env.BUILD_CONFIGURATION }} --no-build --verbosity normal --logger "trx;LogFileName=test-results.trx"
+      run: dotnet test ${{ env.SOLUTION_PATH }} --configuration ${{ env.BUILD_CONFIGURATION }} --no-build --verbosity normal --logger "trx;LogFileName=test-results.trx"
 
     - name: Publish test results
       uses: dorny/test-reporter@v1
