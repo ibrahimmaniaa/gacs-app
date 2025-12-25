@@ -8,6 +8,7 @@ on:
 
 env:
   PROJECT_PATH: 'src/gacs-app.csproj'
+  TEST_PROJECT_PATH: 'tests/gacs-app.Tests.csproj'
   BUILD_CONFIGURATION: 'Release'
   DOTNET_VERSION: '8.0.x'
 
@@ -35,6 +36,18 @@ jobs:
 
     - name: Build application
       run: dotnet build ${{ env.PROJECT_PATH }} --configuration ${{ env.BUILD_CONFIGURATION }} --no-restore
+
+    - name: Run tests
+      run: dotnet test ${{ env.TEST_PROJECT_PATH }} --configuration ${{ env.BUILD_CONFIGURATION }} --no-build --verbosity normal --logger "trx;LogFileName=test-results.trx"
+
+    - name: Publish test results
+      uses: dorny/test-reporter@v1
+      if: always()
+      with:
+        name: Test Results
+        path: '**/test-results.trx'
+        reporter: dotnet-trx
+        fail-on-error: true
 
     - name: Extract version from project file
       id: version
