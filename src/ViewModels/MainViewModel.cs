@@ -14,27 +14,27 @@ public partial class MainViewModel : ObservableObject
 {
   private readonly IScoringService scoringService;
 
-  public IEnumerable<EnumDisplayItem<PrecursorOrigin>> PrecursorOriginItems => EnumResolver.GetDisplayItems<PrecursorOrigin>();
+  public IEnumerable<EnumDisplayItem<PrecursorOrigin>> PrecursorOriginItems => EnumHelper.GetDisplayItems<PrecursorOrigin>();
 
-  public IEnumerable<EnumDisplayItem<SolventGreenness>> SolventGreennessItems => EnumResolver.GetDisplayItems<SolventGreenness>();
+  public IEnumerable<EnumDisplayItem<SolventGreenness>> SolventGreennessItems => EnumHelper.GetDisplayItems<SolventGreenness>();
 
-  public IEnumerable<EnumDisplayItem<EnergyInput>> EnergyInputItems => EnumResolver.GetDisplayItems<EnergyInput>();
+  public IEnumerable<EnumDisplayItem<EnergyInput>> EnergyInputItems => EnumHelper.GetDisplayItems<EnergyInput>();
 
-  public IEnumerable<EnumDisplayItem<EFactorWasteGeneration>> EFactorWasteGenerationItems => EnumResolver.GetDisplayItems<EFactorWasteGeneration>();
+  public IEnumerable<EnumDisplayItem<EFactorWasteGeneration>> EFactorWasteGenerationItems => EnumHelper.GetDisplayItems<EFactorWasteGeneration>();
 
-  public IEnumerable<EnumDisplayItem<SynthesisTime>> SynthesisTimeItems => EnumResolver.GetDisplayItems<SynthesisTime>();
+  public IEnumerable<EnumDisplayItem<SynthesisTime>> SynthesisTimeItems => EnumHelper.GetDisplayItems<SynthesisTime>();
 
-  public IEnumerable<EnumDisplayItem<SimplicityScalability>> SimplicityScalabilityItems => EnumResolver.GetDisplayItems<SimplicityScalability>();
+  public IEnumerable<EnumDisplayItem<SimplicityScalability>> SimplicityScalabilityItems => EnumHelper.GetDisplayItems<SimplicityScalability>();
 
-  public IEnumerable<EnumDisplayItem<PurificationSimplicity>> PurificationSimplicityItems => EnumResolver.GetDisplayItems<PurificationSimplicity>();
+  public IEnumerable<EnumDisplayItem<PurificationSimplicity>> PurificationSimplicityItems => EnumHelper.GetDisplayItems<PurificationSimplicity>();
 
-  public IEnumerable<EnumDisplayItem<ReactionMassEfficiency>> ReactionMassEfficiencyItems => EnumResolver.GetDisplayItems<ReactionMassEfficiency>();
+  public IEnumerable<EnumDisplayItem<ReactionMassEfficiency>> ReactionMassEfficiencyItems => EnumHelper.GetDisplayItems<ReactionMassEfficiency>();
 
-  public IEnumerable<EnumDisplayItem<QuantumYield>> QuantumYieldItems => EnumResolver.GetDisplayItems<QuantumYield>();
+  public IEnumerable<EnumDisplayItem<QuantumYield>> QuantumYieldItems => EnumHelper.GetDisplayItems<QuantumYield>();
 
-  public IEnumerable<EnumDisplayItem<MorphologyUniformity>> MorphologyUniformityItems => EnumResolver.GetDisplayItems<MorphologyUniformity>();
+  public IEnumerable<EnumDisplayItem<MorphologyUniformity>> MorphologyUniformityItems => EnumHelper.GetDisplayItems<MorphologyUniformity>();
 
-  public IEnumerable<EnumDisplayItem<PerformanceApplicability>> PerformanceApplicabilityItems => EnumResolver.GetDisplayItems<PerformanceApplicability>();
+  public IEnumerable<EnumDisplayItem<PerformanceApplicability>> PerformanceApplicabilityItems => EnumHelper.GetDisplayItems<PerformanceApplicability>();
 
 
   [ObservableProperty]
@@ -66,7 +66,7 @@ public partial class MainViewModel : ObservableObject
 
   private async Task CalculateScoreAsync()
   {
-    if (Selection.GetAllSelectedEnums().Any(v => v == null)) return;
+    if (Selection.GetNullableEnumProperties().Any(v => v == null)) return;
 
     Score = await scoringService.CalculateTotalScoreAsync(Selection);
   }
